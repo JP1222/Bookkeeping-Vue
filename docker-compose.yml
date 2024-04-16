@@ -1,6 +1,6 @@
 services:
-  my-app:
-    container_name: my-app
+  Bookkeeping :
+    container_name: Bookkeeping
     build:
       context: .
       dockerfile: Dockerfile
