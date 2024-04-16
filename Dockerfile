@@ -19,11 +19,11 @@ COPY . .
 # # 安装依赖
 # RUN cnpm install
 
-RUN npm --registry=https://registry.npm.taobao.org install
+# RUN npm --registry=https://registry.npm.taobao.org install
 
 
 # 构建应用
-# RUN npm run build
+RUN npm run build
 
 # 使用 Nginx 的 Alpine 版本作为运行时的基础镜像
 FROM nginx:stable-alpine
