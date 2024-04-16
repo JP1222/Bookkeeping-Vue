@@ -1,5 +1,5 @@
 # 使用官方 Node.js 的 Alpine 版本作为基础镜像
-FROM node:16-alpine as builder
+FROM node:latest as builder
 
 # 设置容器内的工作目录。所有后续命令都会在这个目录中执行。
 WORKDIR /app
