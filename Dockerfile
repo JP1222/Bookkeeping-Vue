@@ -1,5 +1,5 @@
 # 使用官方 Node.js 的 Alpine 版本作为基础镜像
-FROM node:lts-alpine as builder
+FROM node:16-alpine as builder
 
 # 设置容器内的工作目录。所有后续命令都会在这个目录中执行。
 WORKDIR /app
@@ -13,14 +13,14 @@ RUN npm install
 # 复制项目的其他所有文件到容器中
 COPY . .
 
-# 设置淘宝npm镜像
-RUN npm install -g cnpm --registry=https://registry.npm.taobao.org
+# # 设置淘宝npm镜像
+# RUN npm install -g cnpm --registry=https://registry.npm.taobao.org
 
-# 安装依赖
-RUN cnpm install
+# # 安装依赖
+# RUN cnpm install
 
 # 构建应用
-RUN cnpm run build
+RUN npm run build
 
 # 使用 Nginx 的 Alpine 版本作为运行时的基础镜像
 FROM nginx:stable-alpine
