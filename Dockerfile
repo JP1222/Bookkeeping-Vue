@@ -21,7 +21,6 @@ COPY . .
 
 # RUN npm --registry=https://registry.npm.taobao.org install
 
-
 # 构建应用
 RUN npm run build
 
