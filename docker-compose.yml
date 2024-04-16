@@ -1,0 +1,11 @@
+services:
+  my-app:
+    container_name: my-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - '.:/app'
+      - /app/node_modules
+    ports:
+      - '8083:80'
