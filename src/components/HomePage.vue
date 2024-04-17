@@ -1,136 +1,194 @@
 <template>
   <div class="main">
-    <el-header>Bookkeeping Tool</el-header>
-    <el-upload
-      class="upload"
-      :action="apiUrl + '/consumptionrecord/ocr'"
-      :on-preview="handlePreview"
-      :on-remove="handleRemove"
-      :file-list="fileList"
-      :on-error="handleImageError"
-      :on-success="handleImageSuccess"
-      list-type="picture"
-    >
-      <el-button
-        size="midium"
-        type="primary"
-        class="el-icon-upload el-icon--right"
-        >点击上传图片</el-button
-      >
-      <div slot="tip" class="el-upload__tip">
-        只能上传jpg/png文件，且不超过500kb
-      </div>
-    </el-upload>
-
-    <el-row class="inputs">
-      <el-col :span="7">
-        <el-select v-model="consumptionType" filterable placeholder="消费类型">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
+    <el-row>
+      <el-col :span="6" offset="1">
+    
+        <div class="record">
+          <el-header>Bookkeeping Tool</el-header>
+          <el-upload
+            class="upload"
+            :action="apiUrl + '/consumptionrecord/ocr'"
+            :on-preview="handlePreview"
+            :on-remove="handleRemove"
+            :file-list="fileList"
+            :on-error="handleImageError"
+            :on-success="handleImageSuccess"
+            list-type="picture"
           >
-          </el-option> </el-select
-      ></el-col>
+            <el-button
+              size="large"
+              type="primary"
+              class="el-icon-upload el-icon--right"
+              >点击上传图片</el-button
+            >
+            <div slot="tip" class="el-upload__tip">
+              只能上传jpg/png文件，且不超过500kb
+            </div>
+          </el-upload>
 
-      <el-col :span="6">
-        <el-input v-model="consumptionAmount" placeholder="消费金额"></el-input>
+          <!-- 识别，以及手工输入栏 -->
+          <el-row class="inputs">
+            <el-col :span="24">
+              <el-select
+                v-model="consumptionType"
+                filterable
+                placeholder="消费类型"
+                style="width: 60%;"
+              >
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                </el-option>
+              </el-select>
+            </el-col>
+          </el-row>
+
+          <el-row class="inputs">
+            <el-col :span="24">
+              <el-input
+                v-model="consumptionAmount"
+                placeholder="消费金额"
+                style="width: 60%;"
+              ></el-input>
+            </el-col>
+          </el-row>
+
+          <el-row class="inputs">
+            <el-col :span="24">
+              <el-date-picker
+                v-model="dateTime"
+                type="datetime"
+                placeholder="选择日期"
+                :picker-options="pickerOptions"
+              >
+              </el-date-picker>
+            </el-col>
+          </el-row>
+
+          <el-row class="inputs">
+            <el-col :span="24">
+              <el-button type="primary" plain size="large" @click="insert"
+                >上传记录
+              </el-button>
+            </el-col>
+          </el-row>
+
+        </div>
       </el-col>
-      <el-col :span="6">
-        <el-date-picker
-          v-model="dateTime"
-          align="right"
-          type="datetime"
-          placeholder="选择日期"
-          :picker-options="pickerOptions"
-        >
-        </el-date-picker>
+
+      <el-col span="2">
+        <el-divider direction="vertical"></el-divider>
       </el-col>
-      <el-col :span="5"
-        >
-        <el-button 
-        type="primary" 
-        plain size="large"
-        @click="insert"
-          >上传记录
-          </el-button>
-      </el-col
-      >
+
+      <!-- ***表格栏*** -->
+      <el-col :span="12" :offset="1">
+        <el-row :justify="center" class="icon">
+            <a href="https://github.com/JP1222/Bookkeeping-Vue" target="_blank" style="float: right;">
+              <img src="@/assets/github.svg" alt="GitHub" />
+            </a>
+        </el-row>
+
+        <el-table :data="tableData" style="width: 100%">
+          <!-- 在表格里绑定tableData这个数据 -->
+          <el-table-column label="日期">
+            <template slot-scope="scope">
+              <i class="el-icon-time"></i>
+              <span style="margin-left: 10px">{{ scope.row.date }}</span>
+            </template>
+          </el-table-column>
+
+          <el-table-column label="类型">
+            <template slot-scope="scope">
+              <el-popover trigger="hover" placement="top">
+                <p>姓名: {{ scope.row.name }}</p>
+                <p>住址: {{ scope.row.address }}</p>
+                <div slot="reference" class="name-wrapper">
+                  <el-tag size="medium">{{ scope.row.type }}</el-tag>
+                </div>
+              </el-popover>
+            </template>
+          </el-table-column>
+
+          <el-table-column label="金额">
+            <template slot-scope="scope">
+              <i class="el-icon-money"></i>
+              <span style="margin-left: 10px">{{ scope.row.amount }}</span>
+            </template>
+          </el-table-column>
+
+          <el-table-column label="操作">
+            <template slot-scope="scope">
+              <el-button
+                size="mini"
+                @click="handleEdit(scope.$index, scope.row)"
+                >编辑</el-button
+              >
+              <el-button
+                size="mini"
+                type="danger"
+                @click="handleDelete(scope.$index, scope.row)"
+                >删除</el-button
+              >
+            </template>
+          </el-table-column>
+        </el-table>
+
+        <!-- 分页 -->
+        <el-row>
+          <div class="pagination">
+            <el-pagination
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page.sync="currentPage"
+              :page-sizes="[10, 20, 30, 50]"
+              :page-size="10"
+              layout="total, sizes, prev, pager, next, jumper"
+              :total="total"
+            >
+            </el-pagination>
+          </div>
+        </el-row>
+      </el-col>
     </el-row>
 
-    <el-divider></el-divider>
-
-    <!-- 记录行开始 -->
-    <el-table :data="tableData" style="width: 100%">
-      <!-- 在表格里绑定tableData这个数据 -->
-      <el-table-column label="日期">
-        <template slot-scope="scope">
-          <i class="el-icon-time"></i>
-          <span style="margin-left: 10px">{{ scope.row.date }}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column label="类型">
-        <template slot-scope="scope">
-          <el-popover trigger="hover" placement="top">
-            <p>姓名: {{ scope.row.name }}</p>
-            <p>住址: {{ scope.row.address }}</p>
-            <div slot="reference" class="name-wrapper">
-              <el-tag size="medium">{{ scope.row.type }}</el-tag>
-            </div>
-          </el-popover>
-        </template>
-      </el-table-column>
-
-      <el-table-column label="金额">
-        <template slot-scope="scope">
-          <i class="el-icon-money"></i>
-          <span style="margin-left: 10px">{{ scope.row.amount }}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column label="操作">
-        <template slot-scope="scope">
-          <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
-            >编辑</el-button
-          >
-          <el-button
-            size="mini"
-            type="danger"
-            @click="handleDelete(scope.$index, scope.row)"
-            >删除</el-button
-          >
-        </template>
-      </el-table-column>
-    </el-table>
-
+    <!-- 抽屉 -->
     <el-drawer
       title="修改当前数据"
       :visible.sync="drawer"
       direction="rtl"
       custom-class="demo-drawer"
       ref="drawer"
-      >
-      
+    >
       <div class="demo-drawer__content">
         <el-form>
           <el-form-item label="消费类型" :label-width="formLabelWidth">
-            <el-select v-model="consumptionType" class="input-short" filterable placeholder="消费类型">
+            <el-select
+              v-model="consumptionType"
+              class="input-short"
+              filterable
+              placeholder="消费类型"
+            >
               <el-option
                 v-for="item in options"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
               >
-              </el-option> 
+              </el-option>
             </el-select>
           </el-form-item>
-              
+
           <el-form-item label="消费金额" :label-width="formLabelWidth">
-            <el-input v-model="consumptionAmount" class="input-short" autocomplete="off"></el-input>
+            <el-input
+              v-model="consumptionAmount"
+              class="input-short"
+              autocomplete="off"
+            ></el-input>
           </el-form-item>
-            
+
           <el-form-item label="消费日期" :label-width="formLabelWidth">
             <el-date-picker
               v-model="dateTime"
@@ -140,38 +198,20 @@
               :picker-options="pickerOptions"
             >
             </el-date-picker>
-          </el-form-item>   
+          </el-form-item>
         </el-form>
 
         <div class="demo-drawer__footer">
           <el-button @click="cancelForm">取 消</el-button>
-          <!-- <el-button type="primary" @click="$refs.drawer.closeDrawer()" >确 定</el-button> -->
-          <el-button type="primary" @click="update" >确 定</el-button>
+          <el-button type="primary" @click="update">确 定</el-button>
         </div>
-
       </div>
     </el-drawer>
-    <!-- 记录行结束 -->
-
-    <!-- 分页 -->
-    <div class="pagination">
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page.sync="currentPage"
-        :page-sizes="[10, 20, 30, 50]"
-        :page-size="10"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="total"
-      >
-      </el-pagination>
-    </div>
-
   </div>
 </template>
 <script>
 import { options } from "./options.js";
-import { fetchData, deleteData, insertData, updateData} from "../api";
+import { fetchData, deleteData, insertData, updateData } from "../api";
 
 export default {
   data() {
@@ -180,7 +220,7 @@ export default {
       dateTime: "",
       consumptionType: "",
       consumptionAmount: "",
-      formLabelWidth: '80px',
+      formLabelWidth: "80px",
       drawer: false,
 
       apiUrl: process.env.VUE_APP_API_URL,
@@ -245,13 +285,13 @@ export default {
     handleImageSuccess(res, file) {
       console.log(res);
       console.log(file);
-      this.dateTime = res.data.date
-      this.consumptionType = res.data.type
-      this.consumptionAmount = res.data.amount
-        this.$message({
-          message: "记录已自动输入，请手动点击上传",
-          type: "success",
-        });
+      this.dateTime = res.data.date;
+      this.consumptionType = res.data.type;
+      this.consumptionAmount = res.data.amount;
+      this.$message({
+        message: "记录已自动输入，请手动点击上传",
+        type: "success",
+      });
     },
     handleRemove(file, fileList) {
       console.log(file, fileList);
@@ -262,28 +302,34 @@ export default {
 
     // 上传表单
     insert() {
-      insertData(this.dateTime, this.consumptionAmount, this.consumptionType)
-        .then(() => {
-          this.getTableData(this.currentPage, this.pageSize);
-          this.$notify({
-              title: "成功",
-              message: "添加成功",
-              type: "success",
-            });
-        })
+      insertData(
+        this.dateTime,
+        this.consumptionAmount,
+        this.consumptionType
+      ).then(() => {
+        this.getTableData(this.currentPage, this.pageSize);
+        this.$notify({
+          title: "成功",
+          message: "添加成功",
+          type: "success",
+        });
+      });
     },
     // 更新数据
     update() {
-      this.cancelForm()
-      updateData(this.dateTime, this.consumptionAmount, this.consumptionType)
-        .then(() => {
-          this.getTableData(this.currentPage, this.pageSize);
-          this.$notify({
-              title: "成功",
-              message: "更新成功",
-              type: "success",
-            });
-        })
+      this.cancelForm();
+      updateData(
+        this.dateTime,
+        this.consumptionAmount,
+        this.consumptionType
+      ).then(() => {
+        this.getTableData(this.currentPage, this.pageSize);
+        this.$notify({
+          title: "成功",
+          message: "更新成功",
+          type: "success",
+        });
+      });
     },
 
     // 表格方法
@@ -326,7 +372,7 @@ export default {
 
     // 抽屉关闭按钮
     cancelForm() {
-      this.drawer = false
+      this.drawer = false;
     },
 
     // 处理分页
@@ -339,24 +385,23 @@ export default {
       this.getTableData(this.currentPage, this.pageSize);
     },
   },
-}
+};
 </script>
 
 <style lang="scss">
-.main {
-  margin: 10px 100px 20px;
-}
 .el-header {
   font-size: 50px;
   font-weight: bold;
-  margin-bottom: 50px;
-}
-.el-col {
-  border-radius: 4px;
+  margin-bottom: 150px;
 }
 
 .inputs {
-  margin-top: 30px;
+  margin-top: 20px;
+  // weight
+}
+
+.el-divider--vertical {
+    height: 80vh;
 }
 
 .input-short {
@@ -364,6 +409,11 @@ export default {
 }
 
 .pagination {
-  margin-top: 20px;
+  margin-top: 40px;
+}
+
+.icon {
+  margin-right: 30px;
+  margin-bottom: 20px;
 }
 </style>
