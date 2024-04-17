@@ -1,6 +1,7 @@
 services:
   my-project :
     container_name: bookkeeping
+    image: bookkeeping-vue:latest
     build:
       context: .
       dockerfile: Dockerfile
