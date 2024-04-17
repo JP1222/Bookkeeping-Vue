@@ -194,8 +194,8 @@ export default {
           url: "https://sichuan.scol.com.cn/items/201908/1908010802220000000C8587.png",
         },
         {
-          name: "Walmart.jpeg",
-          url: "https://lh3.googleusercontent.com/proxy/aMyB7VqXUY6AS1CQsbGtDok7oID1cOzABeNuuzvIzCX5J3s8T0xKoVeWbMuNtc9DfBFJT0RMe016NOjXoIxAG-DjE3th5hjTO3_M8AVm5wZa01qfqg8iARKIKgbyR0BjGRiuqw",
+          name: "麦当劳.jpeg",
+          url: "https://img.zcool.cn/community/022120587490b6a8012060c8e0f957.JPG@800w_1l_2o_100sh.jpg",
         },
       ],
       //日历配置
