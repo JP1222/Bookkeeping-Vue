@@ -9,7 +9,7 @@ WORKDIR /app
 COPY package.json ./
 
 # 安装项目依赖
-# RUN npm install
+RUN npm install
 
 # # 设置淘宝npm镜像
 # RUN npm install -g cnpm --registry=https://registry.npm.taobao.org
@@ -17,7 +17,7 @@ COPY package.json ./
 # # 安装依赖
 # RUN cnpm install
 
-RUN npm --registry=https://registry.npm.taobao.org install
+# RUN npm --registry=https://registry.npm.taobao.org install
 
 # 复制项目的其他所有文件到容器中
 COPY . .
