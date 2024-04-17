@@ -5,13 +5,11 @@ FROM node:latest as builder
 WORKDIR /app
 
 # 首先只复制 package.json 和 package-lock.json (如果存在)
-COPY package*.json ./
+# COPY package*.json ./
+COPY package.json ./
 
 # 安装项目依赖
-RUN npm install
-
-# 复制项目的其他所有文件到容器中
-COPY . .
+# RUN npm install
 
 # # 设置淘宝npm镜像
 # RUN npm install -g cnpm --registry=https://registry.npm.taobao.org
@@ -19,7 +17,10 @@ COPY . .
 # # 安装依赖
 # RUN cnpm install
 
-# RUN npm --registry=https://registry.npm.taobao.org install
+RUN npm --registry=https://registry.npm.taobao.org install
+
+# 复制项目的其他所有文件到容器中
+COPY . .
 
 # 构建应用
 RUN npm run build
