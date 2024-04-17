@@ -9,7 +9,7 @@ COPY package*.json ./
 # COPY package.json ./
 
 # 设置一下镜像源
-RUN npm config set registry https://registry.npmmirror.com
+RUN npm config set registry http://mirrors.cloud.tencent.com/npm/
 
 # 安装项目依赖
 RUN npm install
