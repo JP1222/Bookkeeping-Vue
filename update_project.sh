@@ -2,7 +2,7 @@
 git pull
 
 # 删除旧容器
-docker down
+docker compose down
 
 # 清理旧版本的Docker镜像
 docker image prune -f
