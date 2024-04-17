@@ -1,4 +1,4 @@
-# my-project
+# Bookkeeping
 
 ## Project setup
 ```
