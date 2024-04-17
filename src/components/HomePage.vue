@@ -86,7 +86,7 @@
       </el-col>
 
       <!-- ***表格栏*** -->
-      <el-col :span="12" :offset="1">
+      <el-col :span="14">
         <el-row :justify="center" class="icon">
             <a href="https://github.com/JP1222/Bookkeeping-Vue" target="_blank" style="float: right;">
               <img src="@/assets/github.svg" alt="GitHub" />
@@ -117,7 +117,7 @@
           <el-table-column label="金额">
             <template slot-scope="scope">
               <i class="el-icon-money"></i>
-              <span>{{ scope.row.amount }}</span>
+              <span style="margin-left: 10px">{{ scope.row.amount }}</span>
             </template>
           </el-table-column>
 
@@ -164,7 +164,7 @@
       custom-class="demo-drawer"
       ref="drawer"
     >
-      <div class="demo-drawer__content">
+      <div class="drawer__content">
         <el-form>
           <el-form-item label="消费类型" :label-width="formLabelWidth">
             <el-select
@@ -194,7 +194,6 @@
           <el-form-item label="消费日期" :label-width="formLabelWidth">
             <el-date-picker
               v-model="dateTime"
-              align="right"
               type="datetime"
               placeholder="选择日期"
               :picker-options="pickerOptions"
@@ -417,5 +416,8 @@ export default {
 .icon {
   margin-right: 30px;
   margin-bottom: 30px;
+}
+.drawer__content {
+  // padding-left: 
 }
 </style>
