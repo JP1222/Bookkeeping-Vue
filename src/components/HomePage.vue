@@ -63,6 +63,7 @@
                 type="datetime"
                 placeholder="选择日期"
                 :picker-options="pickerOptions"
+                style="width: 60%;"
               >
               </el-date-picker>
             </el-col>
@@ -115,7 +116,7 @@
           <el-table-column label="金额">
             <template slot-scope="scope">
               <i class="el-icon-money"></i>
-              <span style="margin-left: 10px">{{ scope.row.amount }}</span>
+              <span>{{ scope.row.amount }}</span>
             </template>
           </el-table-column>
 
@@ -392,7 +393,7 @@ export default {
 .el-header {
   font-size: 50px;
   font-weight: bold;
-  margin-bottom: 150px;
+  margin-bottom: 130px;
 }
 
 .inputs {
@@ -409,11 +410,11 @@ export default {
 }
 
 .pagination {
-  margin-top: 40px;
+  margin-top: 50px;
 }
 
 .icon {
   margin-right: 30px;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 </style>
