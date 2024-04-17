@@ -146,7 +146,7 @@
               @current-change="handleCurrentChange"
               :current-page.sync="currentPage"
               :page-sizes="[10, 20, 30, 50]"
-              :page-size="10"
+              :page-size="pageSize"
               layout="total, sizes, prev, pager, next, jumper"
               :total="total"
             >
@@ -226,7 +226,7 @@ export default {
 
       apiUrl: process.env.VUE_APP_API_URL,
       currentPage: 1,
-      pageSize: 10,
+      pageSize: 11,
       total: 10,
       tableData: [],
       fileList: [
