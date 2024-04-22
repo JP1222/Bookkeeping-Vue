@@ -38,8 +38,8 @@ chmod +x ./update_project.sh
 ```
 
 ## Ports Configuration
-- Web port is 8081
-- Backend port is 8083
+- Web port for frontend is 8081
+- Backend service port is 8083
 
 
 
