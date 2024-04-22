@@ -31,7 +31,7 @@ docker compose up -d
 ```
 # Update
 ```
-chomod +x ./update_project.sh
+chmod +x ./update_project.sh
 ./update_project.sh
 ```
 
