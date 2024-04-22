@@ -231,8 +231,8 @@ export default {
       tableData: [],
       fileList: [
         {
-          name: "华润超市.jpeg",
-          url: "https://sichuan.scol.com.cn/items/201908/1908010802220000000C8587.png",
+          name: "数码商品.jpeg",
+          url: "https://img.9553.com/uploadfile/2017/0410/20170410094912742.jpg",
         },
         {
           name: "麦当劳.jpeg",
