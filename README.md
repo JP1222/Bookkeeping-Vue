@@ -27,7 +27,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ## Initial Setup
 Before deployment, ensure you have Docker and Git environments set up, then execute the commands below.
 ```
-git pull https://github.com/JP1222/Bookkeeping-Vue.git
+git clone https://github.com/JP1222/Bookkeeping-Vue.git
 cd Bookkeeping
 docker compose up -d
 ```
