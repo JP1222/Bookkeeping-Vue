@@ -33,8 +33,8 @@ docker compose up -d
 ```
 ## Update
 ```
-chmod +x ./update_project.sh
 cd Bookkeeping-Vue
+chmod +x ./update_project.sh
 ./update_project.sh
 ```
 
