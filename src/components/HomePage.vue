@@ -231,8 +231,8 @@ export default {
       tableData: [],
       fileList: [
         {
-          name: "数码商品.jpeg",
-          url: "https://img.9553.com/uploadfile/2017/0410/20170410094912742.jpg",
+          name: "保险单.jpeg",
+          url: "https://gss0.baidu.com/9fo3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/a8ec8a13632762d09dce50cfa1ec08fa503dc6ca.jpg",
         },
         {
           name: "麦当劳.jpeg",
