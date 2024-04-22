@@ -1,6 +1,6 @@
 # Bookkeeping
 
-## Project setup
+## Project setup for local development
 ```
 pnpm install
 ```
