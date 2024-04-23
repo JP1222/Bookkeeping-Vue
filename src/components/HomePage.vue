@@ -226,7 +226,7 @@ export default {
 
       apiUrl: process.env.VUE_APP_API_URL,
       currentPage: 1,
-      pageSize: 11,
+      pageSize: 10,
       total: 10,
       tableData: [],
       fileList: [
