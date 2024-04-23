@@ -410,7 +410,7 @@ export default {
 }
 
 .pagination {
-  margin-top: 50px;
+  margin-top: 40px;
 }
 
 .icon {
