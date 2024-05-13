@@ -24,7 +24,6 @@ pnpm run lint
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
 # Deploy in Linux
-
 ## Initial Setup
 Before deployment, ensure you have Docker and Git environments set up, then execute the commands below.
 ```
