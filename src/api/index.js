@@ -49,3 +49,17 @@ export function updateData(time, amount, type) {
         }
     })
 }
+
+export function chartData(time, amount, type) {
+    return http.request({
+        url: "/consumptionrecord",
+        method: 'get',
+        data: {
+            time,
+            amount,
+            typeName: type,
+            receipt: null,
+            id: null
+        }
+    })
+}

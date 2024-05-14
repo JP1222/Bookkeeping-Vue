@@ -72,7 +72,7 @@
 
           <el-row class="inputs">
             <el-col :span="24">
-              <el-button type="primary" plain size="large" @click="insert"
+              <el-button type="primary" plain size="large" @click="insert" style="width: 190px;"
                 >上传记录
               </el-button>
             </el-col>
@@ -87,10 +87,13 @@
 
       <!-- ***表格栏*** -->
       <el-col :span="14">
-        <el-row :justify="center" class="icon">
-            <a href="https://github.com/JP1222/Bookkeeping-Vue" target="_blank" style="float: right;">
+        <el-row :justify="center" class="icon-row">
+          <el-col :span="24" class="flex-container">
+            <EChart class="chart" />
+            <a href="https://github.com/JP1222/Bookkeeping-Vue" target="_blank" class="github-link">
               <img src="@/assets/github.svg" alt="GitHub" />
             </a>
+          </el-col>
         </el-row>
 
         <el-table :data="tableData" style="width: 100%">
@@ -208,13 +211,18 @@
         </div>
       </div>
     </el-drawer>
+
   </div>
 </template>
 <script>
 import { options } from "./options.js";
 import { fetchData, deleteData, insertData, updateData } from "../api";
+import EChart from './dataChart.vue'; 
 
 export default {
+  components: { // 注册EChart组件
+    EChart
+  },
   data() {
     return {
       options, // 消费类型选择
@@ -391,6 +399,11 @@ export default {
 </script>
 
 <style lang="scss">
+.flex-container {
+  display: flex;
+  align-items: center; /* 垂直居中 */
+}
+
 .el-header {
   font-size: 50px;
   font-weight: bold;
@@ -414,11 +427,16 @@ export default {
   margin-top: 40px;
 }
 
-.icon {
-  margin-right: 30px;
-  margin-bottom: 30px;
+
+.github-link {
+  margin-left: auto; /* 将链接推到容器的右边 */
 }
-.drawer__content {
+
+.icon-row {
+  width: 100%; /* 确保 el-row 宽度为 100% */
+  padding-right: 10px;
+}
+// .drawer__content {
   // padding-left: 
-}
+// }
 </style>
