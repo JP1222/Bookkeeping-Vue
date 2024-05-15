@@ -50,16 +50,12 @@ export function updateData(time, amount, type) {
     })
 }
 
-export function chartData(time, amount, type) {
+export function getChart() {
     return http.request({
-        url: "/consumptionrecord",
+        url: "/statistics/12months",
         method: 'get',
-        data: {
-            time,
-            amount,
-            typeName: type,
-            receipt: null,
-            id: null
-        }
+        // params: {
+        //     id
+        // }
     })
 }

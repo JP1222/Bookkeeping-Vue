@@ -1,7 +1,8 @@
 <template>
   <div class="main">
-    <el-button round @click="showDialog">查看近一年数据</el-button>
-    <el-button round @click="showDialog" class="searchMonth">查看近一个月数据</el-button>
+    <el-button round @click="showDialog('year')">查看近一年数据</el-button>
+    <el-button round @click="showDialog('week')" class="searchMonth">查看近一周数据</el-button>
+    <el-button round @click="showDialog('month')" class="searchMonth">查看近一个月数据</el-button>
     
     <el-dialog title="数据查询结果" :visible.sync="dialogVisible" width="60%">
       <div id="chart" style="width: 100%; height: 400px;"></div>
@@ -14,38 +15,86 @@
 
 <script>
 import * as echarts from 'echarts';
+import { getChart } from "@/api/index"; // 确保这是命名导出
+import { monthData } from './monthData'
 
 export default {
   data() {
     return {
       dialogVisible: false,
-      charData:[
-              ['2019-10-10', 200],
-              ['2019-10-11', 560],
-              ['2019-10-12', 750],
-              ['2019-10-13', 580],
-              ['2019-10-14', 250],
-              ['2019-10-15', 300],
-              ['2019-10-16', 450],
-              ['2019-10-17', 300],
-              ['2019-10-18', 100]
-            ]
+      charData: []
     };
   },
   methods: {
-    showDialog() {
+    fetch_chartData(period) {
+      if (period === 'year') {
+        getChart().then((result) => {
+          console.log(result)
+          this.charData = result.data.data;
+          this.$notify({
+            title: "成功",
+            message: "查询成功",
+            type: "success",
+          });
+          this.initChart();
+        }).catch(error => {
+          console.error(error);
+          this.$notify({
+            title: "错误",
+            message: "数据更新失败",
+            type: "error",
+          });
+        });
+      } else if (period === 'month') {
+        // 使用导入的月数据
+        this.charData = monthData;
+        this.$notify({
+          title: "成功",
+          message: "查询成功",
+          type: "success",
+        });
+        this.initChart();
+      } else if (period === 'week') {
+        // 使用模拟的一周数据
+        this.charData = [
+          ['2024-05-08', 150],
+          ['2024-05-09', 220],
+          ['2024-05-10', 340],
+          ['2024-05-11', 400],
+          ['2024-05-12', 290],
+          ['2024-05-13', 310],
+          ['2024-05-14', 470]
+        ];
+        this.$notify({
+          title: "成功",
+          message: "查询成功",
+          type: "success",
+        });
+        this.initChart();
+      }
+    },
+
+    showDialog(period) {
       this.dialogVisible = true;
       this.$nextTick(() => {
-        this.initChart();
+        this.fetch_chartData(period);
       });
     },
+
     initChart() {
       var chartDom = document.getElementById('chart');
       var myChart = echarts.init(chartDom);
       var option = {
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'line'
+          }
+        },
         xAxis: {
           type: 'category',
-          boundaryGap: false
+          boundaryGap: false,
+          data: this.charData.map(item => item[0]) // X轴数据
         },
         yAxis: {
           type: 'value',
@@ -84,7 +133,7 @@ export default {
               data: [{ xAxis: 1 }, { xAxis: 3 }, { xAxis: 5 }, { xAxis: 7 }]
             },
             areaStyle: {},
-            data: this.charData
+            data: this.charData.map(item => item[1]) // Y轴数据
           }
         ]
       };
@@ -100,16 +149,6 @@ export default {
 }
 
 .searchMonth {
-  margin-left: 50px
+  margin-left: 50px;
 }
 </style>
-
-
-
-
-{
-  "success": true,
-  "message": "查询成功",
-  "data": 
-  "code": 200
-}
