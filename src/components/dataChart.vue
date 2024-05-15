@@ -37,13 +37,6 @@ export default {
             type: "success",
           });
           this.initChart();
-        }).catch(error => {
-          console.error(error);
-          this.$notify({
-            title: "错误",
-            message: "数据更新失败",
-            type: "error",
-          });
         });
       } else if (period === 'month') {
         // 使用导入的月数据
