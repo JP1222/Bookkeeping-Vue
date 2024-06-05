@@ -14,3 +14,5 @@ docker image prune -af
 
 # 启动新容器
 docker compose up -d
+
+echo "项目更新完成"
