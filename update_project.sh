@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # 从Git仓库拉取最新的项目代码
 git pull
 
